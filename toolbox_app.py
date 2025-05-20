@@ -1,14 +1,9 @@
 import streamlit as st
 from datetime import date
 
-st.title("工具百寶箱")
 
-tool = st.sidebar.selectbox(
-    "選擇工具",
-    ("計算機", "單位轉換器", "BMI 計算器", "日期差距計算器")
-)
-
-if tool == "計算機":
+def calculator() -> None:
+    """顯示計算機介面並執行計算"""
     st.header("計算機")
     num1 = st.number_input("輸入第一個數字", value=0.0)
     op = st.selectbox("選擇運算", ["+", "-", "*", "/"])
@@ -26,7 +21,9 @@ if tool == "計算機":
             else:
                 st.error("除數不能為零")
 
-elif tool == "單位轉換器":
+
+def unit_converter() -> None:
+    """顯示單位轉換器介面"""
     st.header("單位轉換器")
     unit_type = st.selectbox("選擇單位類型", ["長度", "重量", "溫度"])
     if unit_type == "長度":
@@ -48,7 +45,9 @@ elif tool == "單位轉換器":
         st.write(f"華氏: {c * 9/5 + 32}")
         st.write(f"開爾文: {c + 273.15}")
 
-elif tool == "BMI 計算器":
+
+def bmi_calculator() -> None:
+    """計算並顯示 BMI"""
     st.header("BMI 計算器")
     height = st.number_input("身高（公分）", value=170.0)
     weight = st.number_input("體重（公斤）", value=60.0)
@@ -59,10 +58,32 @@ elif tool == "BMI 計算器":
         else:
             st.error("身高需大於 0")
 
-elif tool == "日期差距計算器":
+
+def date_difference_calculator() -> None:
+    """計算兩日期差距"""
     st.header("日期差距計算器")
     date1 = st.date_input("選擇第一個日期", value=date.today())
     date2 = st.date_input("選擇第二個日期", value=date.today())
     if st.button("計算差距"):
         diff = abs((date2 - date1).days)
         st.success(f"兩日期相差 {diff} 天")
+
+
+def main() -> None:
+    st.title("工具百寶箱")
+
+    tool_functions = {
+        "計算機": calculator,
+        "單位轉換器": unit_converter,
+        "BMI 計算器": bmi_calculator,
+        "日期差距計算器": date_difference_calculator,
+    }
+
+    tool = st.sidebar.selectbox("選擇工具", list(tool_functions.keys()))
+    func = tool_functions.get(tool)
+    if func:
+        func()
+
+
+if __name__ == "__main__":
+    main()
