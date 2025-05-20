@@ -16,7 +16,35 @@
       "python": "${command:python.interpreterPath}",
       "envFile": "${workspaceFolder}/.env",
       "module": "mcp_proxy",
-      "args": ["--sse-port=8080", "--debug", "--", "uvx", "mcp-server-fetch"]
+      "args": [
+        "--sse-port=8080",
+        "--debug",
+        "--",
+        "uvx",
+        "mcp-server-fetch"
+      ]
+    },
+    {
+      "name": "Run Backend",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "backend:app",
+        "--reload"
+      ],
+      "justMyCode": false
+    },
+    {
+      "name": "Run Frontend",
+      "type": "python",
+      "request": "launch",
+      "module": "streamlit",
+      "args": [
+        "run",
+        "frontend.py"
+      ],
+      "justMyCode": false
     }
   ]
 }
